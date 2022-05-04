@@ -4,8 +4,34 @@ const first_skill = document.querySelector(".skill:first-child");
 const sk_counters = document.querySelectorAll(".counter span")
 const progress_bars = document.querySelectorAll(".skills svg circle");
 
+const ml_section = document.querySelector(".milestones");
+const ml_counters = document.querySelectorAll(".number span");
+
+const prt_section = document.querySelector(".portfolio");
+const zoom_icons = document.querySelectorAll(".zoom-icon");
+const modal_overlay = document.querySelector(".modal-overlay");
+
+
+
+function stickyNavbar(){
+   header.classList.toggle('scrolled', window.pageYOffset > 0);
+}
+window.addEventListener("scroll",stickyNavbar);
+
+
+let sr = ScrollReveal({
+    duration: 2500,
+    distance: "60px",
+});
+
+sr.reveal(".showcase-info", {delay: 600});
+sr.reveal(".showcase-image", {origin: "top", delay: 700});
+
+
+
 window.addEventListener("scroll", () => {
     if(!skillsPlayed) skillsCounter();
+    if(!mlPlayed) mlCounter();
 })
 
 function hasReached(el){
@@ -46,16 +72,44 @@ function skillsCounter(){
 
 
 
-function stickyNavbar(){
-   header.classList.toggle('scrolled', window.pageYOffset > 0);
+let mlPlayed = false;
+
+function mlCounter(){
+    if(!hasReached(ml_section)) return;
+    mlPlayed = true;
+    ml_counters.forEach((ctr) => {
+        let target = +ctr.dataset.target;
+
+        setTimeout(()=>{
+            updateCount(ctr, target);
+        }, 400);
+    });
 }
-window.addEventListener("scroll",stickyNavbar);
 
 
-let sr = ScrollReveal({
-    duration: 2500,
-    distance: "60px",
+
+
+let mixer = mixitup('.portfolio-gallery', {
+    selectors: {
+        target: '.prt-card'
+    },
+    animation: {
+        duration: 500
+    }
 });
 
-sr.reveal(".showcase-info", {delay: 600});
-sr.reveal(".showcase-image", {origin: "top", delay: 700});
+
+
+/*MODAL*/
+
+
+zoom_icons.forEach(icn => icn.addEventListener("click", () => {
+    prt_section.classList.add("open");
+    document.body.classList.add("stopScrolling");
+}));
+
+modal_overlay.addEventListener("click", () => { 
+    prt_section.classList.remove("open");
+    document.body.classList.remove("stopScrolling");
+});
+

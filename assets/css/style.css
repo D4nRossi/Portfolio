@@ -34,6 +34,11 @@ body{
     font-family: "poppins", sans-serif;
 }
 
+body.stopScrolling{
+    height: 100%;
+    overflow: hidden;
+}
+
 ::selection{
     background-color: hsla(var(--hue-1), 100%, 60%, 0.9);
     color: #fff;
@@ -262,6 +267,7 @@ header.scrolled .logo{
     border-bottom: 2px solid var(--main-color-2);
     border-radius: 0px;
     padding: .15rem 0;
+    min-width: revert;
 }
 
 .btn.secundary-btn::before{
@@ -548,6 +554,324 @@ header.scrolled .logo{
     top: 75%;
     transform: translate(-50%, -50%);
 }
+
+
+/*Services*/
+
+.services .container{
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    column-gap: 6rem;
+    align-items: center;
+}
+
+.milestones{
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    text-align: center;
+    margin-top: 1rem;
+    justify-items: flex-start;
+}
+
+.milestones h2{
+    color: var(--main-color-1);
+    font-size: 1.3rem;
+}
+
+.milestones h2 span{
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-right: .1rem;
+}
+
+.milestones h5{
+    color: var(--heading-color);
+    line-height: .9;
+    font-weight: 500;
+    font-size: .95rem;
+}
+
+.services-grid{
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2rem;
+    row-gap: 4.4rem;
+}
+
+.srv-card{
+    background-color: var(--bg-color-2);
+    border-radius: 15px;
+    padding: 2.5rem 2.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    min-height: 280px;
+}
+
+.srv-card h3{
+    color: var(--heading-color);
+    font-weight: 500;
+    font-size: 1.05rem;
+}
+
+.srv-card .text{
+    margin: .7rem 0;
+    font-size: .7rem;
+}
+
+.srv-card:nth-child(2){
+    transform: translateY(2.2rem);
+}
+
+.srv-card:nth-child(3){
+    transform: translateY(-2.2rem);
+}
+
+.services-grid::before{
+    content: "";
+    position: absolute;
+    width: 210px;
+    height: 210px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 15px solid var(--main-color-1);
+    z-index: -1;
+    opacity: 0.07;
+}
+
+.services .triangle{
+    top: 100%;
+    left: 30%;
+    position: absolute;
+    transform: translate(-50%, -100%);
+}
+
+.services .square{
+    top: 75%;
+    left: -15px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+
+/*Portfolio*/
+
+.portfolio .container{
+    transition: .4s;
+}
+
+.portfolio-header{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+}
+
+
+.portfolio-title{
+    padding-bottom: 1rem;
+}
+
+.filter-btn{
+    display: inline-block;
+    color: var(--heading-color);
+    background: none;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: .85rem;
+    font-weight: 600;
+    letter-spacing: .4px;
+    margin-left: 1.3rem;
+    font-family: inherit;
+    text-transform: uppercase;
+}
+
+.filter-btn.mixitup-control-active{
+    color: var(--main-color-1);
+}
+
+.portfolio-gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.prt-card{
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: var(--bg-color-2);
+    height: 265px;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+.prt-image{
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.prt-image img{
+    width: 105%;
+    height: 350px;
+}
+
+.prt-desc{
+    padding: 1.1rem 1.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.prt-desc h3{
+    font-size: .95rem;
+    color: var(--heading-color);
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.btn.secondary-btn.sm{
+    padding: .07rem .1rem;
+    font-size: .78rem;
+    border-bottom-width: 2px;
+}
+
+.btn.secondary-btn.sm::before{
+    height: 2px;
+    bottom: -2px;
+}
+
+.prt-overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    backdrop-filter: blur(0px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.prt-image:hover .prt-overlay{
+    pointer-events: auto;
+    background-color: var(--bg-color-transparent);
+    backdrop-filter: blur(10px);
+}
+
+.prt-icon{
+    color: hsl(var(--hue-1), 61%, 24%);
+    font-size: 1.1rem;
+    margin: 0 0.4rem;
+    background-color: var(--main-color-2);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transform: translateY(15px);
+    opacity: 0;
+    transition: .3s;
+}
+
+.prt-icon:hover{
+    background-color: var(--main-color-dark-2);
+}
+
+.prt-image:hover .prt-icon{
+    opacity: 1;
+    transform: translateY(0px);
+    transition: .3s var(--i);
+}
+
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 11;
+    pointer-events: none;
+}
+
+.modal-overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.85);
+    opacity: 0;
+    transition: .3s;
+}
+
+.slider-wrap{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 400px));
+    width: 90%;
+    max-width: 900px;
+    display: grid;
+    grid-template-columns: 100px 1fr 100px;
+    align-items: center;
+    justify-items: center;
+    opacity: 0;
+    transition: .2s;
+}
+
+.slider-wrap img{
+    width: 100%;
+    display: none;
+}
+
+.navigation{
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 2rem;
+}
+
+.slider-wrap img.showImage{
+    display: block;
+    border-radius: 10px;
+}
+
+.portfolio.open .modal{
+    pointer-events: auto;
+}
+
+.portfolio.open .modal-overlay{
+    opacity: 1;
+}
+
+.portfolio.open .container{
+    transform: scale(.9);
+}
+
+.portfolio.open .slider-wrap{
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    transition: .45s .1s;
+}
+
+
 
 
 
