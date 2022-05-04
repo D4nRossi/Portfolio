@@ -10,6 +10,9 @@ const ml_counters = document.querySelectorAll(".number span");
 const prt_section = document.querySelector(".portfolio");
 const zoom_icons = document.querySelectorAll(".zoom-icon");
 const modal_overlay = document.querySelector(".modal-overlay");
+const images = document.querySelectorAll(".images img");
+const next_btn = document.querySelector(".next-btn");
+const prev_btn = document.querySelector(".prev-btn");
 
 
 
@@ -102,10 +105,13 @@ let mixer = mixitup('.portfolio-gallery', {
 
 /*MODAL*/
 
+let currentIndex = 0;
 
-zoom_icons.forEach(icn => icn.addEventListener("click", () => {
+zoom_icons.forEach((icn, i) => icn.addEventListener("click", () => {
     prt_section.classList.add("open");
     document.body.classList.add("stopScrolling");
+    currentIndex = i;
+    changeImage(currentIndex);
 }));
 
 modal_overlay.addEventListener("click", () => { 
@@ -113,3 +119,34 @@ modal_overlay.addEventListener("click", () => {
     document.body.classList.remove("stopScrolling");
 });
 
+prev_btn.addEventListener("click", () => {
+    if(currentIndex === 0){
+        currentIndex = 5;
+    }else{
+        currentIndex--;
+    }
+    
+    changeImage(currentIndex);
+});
+
+next_btn.addEventListener("click", () => {
+    if(currentIndex >= 5){
+        currentIndex = 0;
+    }else{
+        currentIndex++;
+    }
+    
+    changeImage(currentIndex);
+});
+
+function changeImage(index){
+    images.forEach((img) => img.classList.remove("showImage"));
+    images[index].classList.add("showImage");
+}
+
+/*document.getElementById('mail').addEventListener('submit', function () {
+    var nome = this.querySelector('input[name=nome]'), nome = nome.value;
+    var email = this.querySelector('input[name=email]'), email = email.value;
+    var texto = 'Olá destinatário, \nMeu nome é '+ nome +' e meu email é '+ email;
+    this.querySelector('textarea[name=Body]').setAttribute('value', texto);
+});*/
