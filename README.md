@@ -1,1 +1,1 @@
-Projeto idealizado como um meio de expandir meus conhecimentos e fazer algo utíl ao mesmo tempo, e com isso nasceu a ideia de um Portfolio totalmente online e responsivo, utilizando HTML5, CSS3 e JS.
+Projeto idealizado como um meio de expandir meus conhecimentos e fazer algo utíl ao mesmo tempo, e com isso nasceu a ideia de um Portfolio totalmente online e responsivo, utilizando HTML5, CSS3, JS, API's de BackEnd e uso da memória cache.
