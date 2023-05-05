@@ -31,10 +31,7 @@ const scene = new TRHEE.Scene();
 //Camera arguments - field of view, scene aspect ratio, clipping plan
 const camera = new TRHEE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 //Renderer
-const renderer = new TRHEE.WebGLRenderer()
-console.log(scene);
-console.log(camera);
-console.log(renderer);
+const renderer = new TRHEE.WebGLRenderer();
 
 //Arguments - width, height
 renderer.setSize(innerWidth, innerHeight);
@@ -42,32 +39,33 @@ renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(devicePixelRatio);
 
 document.body.appendChild(renderer.domElement);
-//Arguments - width, length, hight
-const boxGeometry = new TRHEE.BoxGeometry(1, 1, 1);
-console.log(boxGeometry);
 
-//Arguments - hex color
-const material = new TRHEE.MeshBasicMaterial({
-  color: 0x00FF00
-});
-console.log(material);
-
-//Junção do Geometry e do Material
-const mesh = new TRHEE.Mesh(boxGeometry, material);
-console.log(mesh);
-
-//Adicionando o Mesh a Scene
-scene.add(mesh);
 //Posicionamento para ver o que vai ser renderizado
 camera.position.z = 5;
+
+//Criando o plano geometrico
+const planeGeometry = new TRHEE.PlaneGeometry(5, 5, 10, 10);
+//Definindo a cor, com iluminação
+const planeMaterial = new TRHEE.MeshPhongMaterial({
+  color: 0xFF0000,
+  side: TRHEE.DoubleSide //Deixando os dois lados visiveis
+});
+//Criando o Mesh do plano
+const planeMesh = new TRHEE.Mesh(planeGeometry, planeMaterial)
+//Adicionando na Scene
+scene.add(planeMesh);
+
+//Adicionando Iluminação - Cor e intensidade
+const light = new TRHEE.DirectionalLight(0xffffff, 1)
+//Posicionando a luz eixos x y z
+light.position.set(0, 0, 1);
+//Adicionando a luz a scene
+scene.add(light);
 
 function animate(){
   requestAnimationFrame(animate);
   //Renderizando a Scene, varias vezes
   renderer.render(scene, camera);
-  //Adicionando movimentos aos eixos
-  mesh.rotation.x += 0.01;
-  mesh.rotation.y += 0.01;
 }
 
 animate();
