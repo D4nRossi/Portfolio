@@ -48,12 +48,26 @@ const planeGeometry = new TRHEE.PlaneGeometry(5, 5, 10, 10);
 //Definindo a cor, com iluminação
 const planeMaterial = new TRHEE.MeshPhongMaterial({
   color: 0xFF0000,
-  side: TRHEE.DoubleSide //Deixando os dois lados visiveis
+  side: TRHEE.DoubleSide, //Deixando os dois lados visiveis
+  flatShading: TRHEE.FlatShading //"pixelando"
 });
 //Criando o Mesh do plano
 const planeMesh = new TRHEE.Mesh(planeGeometry, planeMaterial)
 //Adicionando na Scene
 scene.add(planeMesh);
+
+//Alterando o formato, mexendo no array position dentro de geometry no planeMesh
+const {array} = planeMesh.geometry.attributes.position;
+for(let i = 0; i < array.length; i += 3){
+    //Posições individuas de cada vertice
+    const x = array[i];
+    const y = array[i + 1]; 
+    const z = array[i + 2]; 
+    
+    //Movimentando de forma randomica
+    array[i + 2] = z + Math.random();
+} 
+
 
 //Adicionando Iluminação - Cor e intensidade
 const light = new TRHEE.DirectionalLight(0xffffff, 1)
