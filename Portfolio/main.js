@@ -37,6 +37,38 @@ console.log(camera);
 console.log(renderer);
 
 //Arguments - width, height
-renderer.setSize(innerWidth, innerHeight)
-document.body.appendChild(renderer.domElement)
-Scenes, Cameras, and Renderers
+renderer.setSize(innerWidth, innerHeight);
+//Definindo o tamnho
+renderer.setPixelRatio(devicePixelRatio);
+
+document.body.appendChild(renderer.domElement);
+//Arguments - width, length, hight
+const boxGeometry = new TRHEE.BoxGeometry(1, 1, 1);
+console.log(boxGeometry);
+
+//Arguments - hex color
+const material = new TRHEE.MeshBasicMaterial({
+  color: 0x00FF00
+});
+console.log(material);
+
+//Junção do Geometry e do Material
+const mesh = new TRHEE.Mesh(boxGeometry, material);
+console.log(mesh);
+
+//Adicionando o Mesh a Scene
+scene.add(mesh);
+//Posicionamento para ver o que vai ser renderizado
+camera.position.z = 5;
+
+function animate(){
+  requestAnimationFrame(animate);
+  //Renderizando a Scene, varias vezes
+  renderer.render(scene, camera);
+  //Adicionando movimentos aos eixos
+  mesh.rotation.x += 0.01;
+  mesh.rotation.y += 0.01;
+}
+
+animate();
+
