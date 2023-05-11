@@ -26,7 +26,7 @@ setupCounter(document.querySelector('#counter'))*/
 
 //Formatado
 import * as TRHEE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
-
+import {OrbitControls} from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 
 const gui = new dat.GUI()
@@ -62,9 +62,6 @@ function generatePlane(){
   }
 }
 
-
-
-
 const scene = new TRHEE.Scene();
 //Camera arguments - field of view, scene aspect ratio, clipping plan
 const camera = new TRHEE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
@@ -78,6 +75,8 @@ renderer.setPixelRatio(devicePixelRatio);
 
 document.body.appendChild(renderer.domElement);
 
+//Controle de orbita
+new OrbitControls(camera, renderer.domElement)
 //Posicionamento para ver o que vai ser renderizado
 camera.position.z = 5;
 
@@ -109,10 +108,13 @@ for(let i = 0; i < array.length; i += 3){
 
 //Adicionando Iluminação - Cor e intensidade
 const light = new TRHEE.DirectionalLight(0xffffff, 1)
+const backLight = new TRHEE.DirectionalLight(0xffffff, 1)
 //Posicionando a luz eixos x y z
 light.position.set(0, 0, 1);
+backLight.position.set(0, 0, -1);
 //Adicionando a luz a scene
 scene.add(light);
+scene.add(backLight);
 
 function animate(){
   requestAnimationFrame(animate);
