@@ -27,6 +27,44 @@ setupCounter(document.querySelector('#counter'))*/
 //Formatado
 import * as TRHEE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
 
+import * as dat from 'dat.gui'
+
+const gui = new dat.GUI()
+const world = {
+  plane:{
+    width: 10,
+    height: 10,
+    widthSegments:10,
+    heightSegments:10
+  }
+} 
+
+//Alterando a largura
+gui.add(world.plane, 'width', 1, 20).onChange(generatePlane)
+gui.add(world.plane, 'widthSegments', 1, 20).onChange(generatePlane)
+//Alterando a altura
+gui.add(world.plane, 'height', 1, 20).onChange(generatePlane)
+gui.add(world.plane, 'heightSegments', 1, 20).onChange(generatePlane)
+
+function generatePlane(){
+  planeMesh.geometry.dispose();
+  planeMesh.geometry = new TRHEE.PlaneGeometry(world.plane.width, world.plane.height, world.plane.widthSegments, world.plane.heightSegments)
+
+  const {array} = planeMesh.geometry.attributes.position;
+  for(let i = 0; i < array.length; i += 3){
+    //Posições individuas de cada vertice
+    const x = array[i];
+    const y = array[i + 1]; 
+    const z = array[i + 2]; 
+    
+    //Movimentando de forma randomica
+    array[i + 2] = z + Math.random();
+  }
+}
+
+
+
+
 const scene = new TRHEE.Scene();
 //Camera arguments - field of view, scene aspect ratio, clipping plan
 const camera = new TRHEE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
