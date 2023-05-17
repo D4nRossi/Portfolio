@@ -25,7 +25,7 @@ document.querySelector('#app').innerHTML = `
 setupCounter(document.querySelector('#counter'))*/
 
 //Formatado
-import * as TRHEE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
+import * as THREE from 'https://unpkg.com/three@0.126.1/build/three.module.js';
 import {OrbitControls} from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 
@@ -48,7 +48,7 @@ gui.add(world.plane, 'heightSegments', 1, 20).onChange(generatePlane)
 
 function generatePlane(){
   planeMesh.geometry.dispose();
-  planeMesh.geometry = new TRHEE.PlaneGeometry(world.plane.width, world.plane.height, world.plane.widthSegments, world.plane.heightSegments)
+  planeMesh.geometry = new THREE.PlaneGeometry(world.plane.width, world.plane.height, world.plane.widthSegments, world.plane.heightSegments)
 
   const {array} = planeMesh.geometry.attributes.position;
   for(let i = 0; i < array.length; i += 3){
@@ -61,12 +61,13 @@ function generatePlane(){
     array[i + 2] = z + Math.random();
   }
 }
-
-const scene = new TRHEE.Scene();
+//Raycaster funciona como uma verificação se o mouse esta em cima do objeto
+const raycaster = new THREE.Raycaster();
+const scene = new THREE.Scene();
 //Camera arguments - field of view, scene aspect ratio, clipping plan
-const camera = new TRHEE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, innerWidth / innerHeight, 0.1, 1000);
 //Renderer
-const renderer = new TRHEE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer();
 
 //Arguments - width, height
 renderer.setSize(innerWidth, innerHeight);
@@ -81,15 +82,15 @@ new OrbitControls(camera, renderer.domElement)
 camera.position.z = 5;
 
 //Criando o plano geometrico
-const planeGeometry = new TRHEE.PlaneGeometry(5, 5, 10, 10);
+const planeGeometry = new THREE.PlaneGeometry(5, 5, 10, 10);
 //Definindo a cor, com iluminação
-const planeMaterial = new TRHEE.MeshPhongMaterial({
+const planeMaterial = new THREE.MeshPhongMaterial({
   color: 0xFF0000,
-  side: TRHEE.DoubleSide, //Deixando os dois lados visiveis
-  flatShading: TRHEE.FlatShading //"pixelando"
+  side: THREE.DoubleSide, //Deixando os dois lados visiveis
+  flatShading: THREE.FlatShading //"pixelando"
 });
 //Criando o Mesh do plano
-const planeMesh = new TRHEE.Mesh(planeGeometry, planeMaterial)
+const planeMesh = new THREE.Mesh(planeGeometry, planeMaterial)
 //Adicionando na Scene
 scene.add(planeMesh);
 
@@ -107,20 +108,38 @@ for(let i = 0; i < array.length; i += 3){
 
 
 //Adicionando Iluminação - Cor e intensidade
-const light = new TRHEE.DirectionalLight(0xffffff, 1)
-const backLight = new TRHEE.DirectionalLight(0xffffff, 1)
+const light = new THREE.DirectionalLight(0xffffff, 1)
+const backLight = new THREE.DirectionalLight(0xffffff, 1)
 //Posicionando a luz eixos x y z
 light.position.set(0, 0, 1);
 backLight.position.set(0, 0, -1);
 //Adicionando a luz a scene
 scene.add(light);
 scene.add(backLight);
+//Criando objeto do mouse
+const mouse = {
+  x: undefined,
+  y: undefined
+}
 
 function animate(){
   requestAnimationFrame(animate);
   //Renderizando a Scene, varias vezes
   renderer.render(scene, camera);
+
+  raycaster.setFromCamera(mouse, camera)
+  const intersects = raycaster.intersectObject(planeMesh);
+  if(intersects.length > 0){
+    console.log('intersecting')
+  }
 }
 
 animate();
 
+//Efeito hover
+addEventListener('mousemove', (event)=>{
+  //Definindo o valor de x pela posição do mouse
+  mouse.x = (event.clientX / innerWidth) * 2 - 1
+  //Definindo o valor de y pela posição do mouse
+  mouse.y = -(event.clientY / innerHeight) * 2 + 1
+});
